@@ -8,8 +8,10 @@ import Footer from './Footer'
 const MainPage = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    const url =
-      "https://6d234e1f-4f06-4f4f-a473-ef51c7d28bbf.mock.pstmn.io/products/";
+    // const url =
+    //   "https://6d234e1f-4f06-4f4f-a473-ef51c7d28bbf.mock.pstmn.io/products/";
+    let url =
+      "http://localhost:8080/products/";
     axios
       .get(url)
       .then((result) => {

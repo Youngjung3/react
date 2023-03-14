@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Checkbox, Button, ConfigProvider, Upload, Divider, InputNumber } from "antd";
+import { Form, Input, Button, Upload, Divider, InputNumber } from "antd";
 import "./UploadPage.css"
 import Header from "./Header";
 import Footer from "./Footer";
