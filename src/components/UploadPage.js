@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Upload, Divider, InputNumber } from "antd";
 import "./UploadPage.css"
-import Header from "./Header";
-import Footer from "./Footer";
+// import Header from "./Header";
+// import Footer from "./Footer";
 
 const {TextArea} = Input;
 const UploadPage = () => {
@@ -12,7 +12,7 @@ const UploadPage = () => {
 return (
     // multer
     <div>
-      <Header />
+      {/* <Header /> */}
           <div id="upload-container">
               <Form name="uploadForm" onFinish={onFinish}>
                 <Form.Item name="upload">
@@ -39,7 +39,7 @@ return (
                 </Form.Item>
               </Form>
           </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

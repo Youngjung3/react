@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import Header from "./Header";
-import Footer from "./Footer";
+// import Header from "./Header";
+// import Footer from "./Footer";
 import "./ProductPage.css"
 
 const ProductPage = () => {
@@ -10,12 +10,13 @@ const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   useEffect(() => {
-    const url = `https://6d234e1f-4f06-4f4f-a473-ef51c7d28bbf.mock.pstmn.io/products/${id}`;
-    // const url = `http://localhost:8080/products/${id}`;
+    // const url = `https://6d234e1f-4f06-4f4f-a473-ef51c7d28bbf.mock.pstmn.io/products/${id}`;
+    const url = `http://localhost:8080/products/${id}`;
     axios
       .get(url)
       .then((result) => {
-        setProduct(result.data);
+        console.log(result);
+        setProduct(result.data.product);
       })
       .catch((error) => {
         console.log(error);
@@ -26,7 +27,7 @@ const ProductPage = () => {
   }
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div>
         {/* <button onClick={() => navigate("/")} id="home-btn">
             홈
@@ -44,11 +45,11 @@ const ProductPage = () => {
         <div id="contents-box">
           <div id="name">{product.name}</div>
           <div id="price">{product.price}원</div>
-          <div id="createAt">2023.03.10</div>
-          <div id="description">{product.desc}</div>
+          <div id="createAt">{product.createdAt}</div>
+          <div id="description">{product.description}</div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
