@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Upload, Divider, InputNumber } from "antd";
+import React, { /* useEffect, */ useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Form, Input, Button, Upload, Divider, InputNumber, message} from "antd";
 import { API_URL } from "../config/constants";
 import axios from "axios";
 import "./UploadPage.css";
@@ -9,14 +10,31 @@ import "./UploadPage.css";
 const { TextArea } = Input;
 const UploadPage = () => {
   const [imageUrl, setImageUrl] = useState(null);
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const info = () => {
+    messageApi.info('등록되었습니다');
+  };
+
+  const navigate = useNavigate();
   const onFinish = (val) => {
-    console.log(val);
-    axios.post(`${API_URL}/products`,{
-        name:val.name,
-        description:val.description,
-        price:val.price,
-        seller:val.seller,
-    }).then((result)=>{console.log(result);}).catch((error)=>{console.error(error);});
+    // console.log(val);
+    axios
+      .post(`${API_URL}/products`, {
+        name: val.name,
+        description: val.description,
+        price: val.price,
+        seller: val.seller,
+        imageUrl: imageUrl,
+      })
+      .then((result) => {
+        console.log(result);
+        navigate("/",{replace:true});
+      })
+      .catch((error) => {
+        console.error(error);
+        message.error(`에러가 발생하였습니다`);
+      });
   };
   const onChangeImage = (info) => {
     console.log(info);
@@ -44,11 +62,7 @@ const UploadPage = () => {
               onChange={onChangeImage}
             >
               {imageUrl ? (
-                <img
-                  id="upload-img"
-                  src={`${API_URL}/${imageUrl}`}
-                  alt=""
-                />
+                <img id="upload-img" src={`${API_URL}/${imageUrl}`} alt="" />
               ) : (
                 <div id="upload-img-placeholder">
                   <img src="/images/icons/camera.png" alt="" />
@@ -58,7 +72,8 @@ const UploadPage = () => {
             </Upload>
           </Form.Item>
           <Divider></Divider>
-          <Form.Item label={<span className="upload-label">판매자명:</span>}
+          <Form.Item
+            label={<span className="upload-label">판매자명:</span>}
             name="seller"
             rules={[
               { required: true, message: "판매자명은 필수 입력 사항입니다." },
@@ -68,7 +83,8 @@ const UploadPage = () => {
               className="upload-seller"
               placeholder="판매자명을 입력해주세요"
               size="large"
-            /></Form.Item>
+            />
+          </Form.Item>
           <Form.Item
             label={<span className="upload-label">상품명:</span>}
             name="name"
@@ -115,7 +131,8 @@ const UploadPage = () => {
             ></TextArea>
           </Form.Item>
           <Form.Item>
-            <Button id="submit-button" htmlType="submit">
+            {contextHolder}
+            <Button id="submit-button" htmlType="submit" onClick={info}>
               상품등록하기
             </Button>
           </Form.Item>
