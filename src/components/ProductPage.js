@@ -2,29 +2,44 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../config/constants";
+import { Button, message } from 'antd'
 // import Header from "./Header";
 // import Footer from "./Footer";
 import "./ProductPage.css"
+import dayjs from "dayjs";
 
 const ProductPage = () => {
   const navigate = useNavigate([]);
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  useEffect(() => {
-    // const url = `https://6d234e1f-4f06-4f4f-a473-ef51c7d28bbf.mock.pstmn.io/products/${id}`;
-    const url = `${API_URL}/products/${id}`;
+  const getProduct=()=>{
     axios
-      .get(url)
-      .then((result) => {
-        console.log(result);
-        setProduct(result.data.product);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    .get(`${API_URL}/products/${id}`)
+    .then((result) => {
+      console.log(result);
+      setProduct(result.data.product);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  useEffect(() => {
+    getProduct();
   }, []);
   if (product == null) {
     return <h1>상품정보를 받고 있습니다.</h1>;
+  }
+
+  const onClickPurchase=()=>{
+    axios
+    .post(`${API_URL}/purchase/${id}`)
+    .then((result) => {
+      message.info("결제가 완료 되었습니다");
+      getProduct();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
   return (
     <div>
@@ -47,6 +62,8 @@ const ProductPage = () => {
           <div id="name">{product.name}</div>
           <div id="price">{product.price}원</div>
           <div id="createAt">{product.createdAt}</div>
+          {/* <div className="product-date">상품등록일: {dayjs(product.createdAt).format}</div> */}
+          <Button size="large" type="primary" danger={true} className="payment" onClick={onClickPurchase}>즉시결재하기</Button>
           <pre id="description">{product.description}</pre>
         </div>
       </div>

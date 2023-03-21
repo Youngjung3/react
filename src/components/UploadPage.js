@@ -1,6 +1,14 @@
 import React, { /* useEffect, */ useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Upload, Divider, InputNumber, message} from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Upload,
+  Divider,
+  InputNumber,
+  message,
+} from "antd";
 import { API_URL } from "../config/constants";
 import axios from "axios";
 import "./UploadPage.css";
@@ -13,7 +21,7 @@ const UploadPage = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
   const info = () => {
-    messageApi.info('등록되었습니다');
+    messageApi.info("등록되었습니다");
   };
 
   const navigate = useNavigate();
@@ -29,7 +37,7 @@ const UploadPage = () => {
       })
       .then((result) => {
         console.log(result);
-        navigate("/",{replace:true});
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         console.error(error);
@@ -53,7 +61,7 @@ const UploadPage = () => {
       {/* <Header /> */}
       <div id="upload-container">
         <Form name="uploadForm" onFinish={onFinish}>
-          <Form.Item name="upload">
+          <Form.Item name="files" valuePropName="image">
             <Upload
               name="image"
               action={`${API_URL}/image`}
@@ -72,19 +80,7 @@ const UploadPage = () => {
             </Upload>
           </Form.Item>
           <Divider></Divider>
-          <Form.Item
-            label={<span className="upload-label">판매자명:</span>}
-            name="seller"
-            rules={[
-              { required: true, message: "판매자명은 필수 입력 사항입니다." },
-            ]}
-          >
-            <Input
-              className="upload-seller"
-              placeholder="판매자명을 입력해주세요"
-              size="large"
-            />
-          </Form.Item>
+
           <Form.Item
             label={<span className="upload-label">상품명:</span>}
             name="name"
@@ -100,18 +96,27 @@ const UploadPage = () => {
           </Form.Item>
           <Divider></Divider>
           <Form.Item
+            label={<span className="upload-label">판매자명:</span>}
+            name="seller"
+            rules={[
+              { required: true, message: "판매자명은 필수 입력 사항입니다." },
+            ]}
+          >
+            <Input
+              className="upload-seller"
+              placeholder="판매자명을 입력해주세요"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item
             label={<span className="price">판매가</span>}
             name="price"
             rules={[
               { required: true, message: "판매가는 필수 입력 사항입니다." },
             ]}
+            initialValue={0}
           >
-            <InputNumber
-              className="upload-price"
-              size="large"
-              min={0}
-              defaultValue={0}
-            />
+            <InputNumber className="upload-price" size="large" min={0} />
           </Form.Item>
           <Divider></Divider>
           <Form.Item
@@ -132,7 +137,7 @@ const UploadPage = () => {
           </Form.Item>
           <Form.Item>
             {contextHolder}
-            <Button id="submit-button" htmlType="submit" onClick={info}>
+            <Button id="submit-button" htmlType="submit">
               상품등록하기
             </Button>
           </Form.Item>
