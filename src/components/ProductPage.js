@@ -63,7 +63,7 @@ const ProductPage = () => {
           <div id="price">{product.price}원</div>
           <div id="createAt">{product.createdAt}</div>
           {/* <div className="product-date">상품등록일: {dayjs(product.createdAt).format}</div> */}
-          <Button size="large" type="primary" danger={true} className="payment" onClick={onClickPurchase}>즉시결재하기</Button>
+          <Button size="large" type="primary" danger={true} className="payment" onClick={onClickPurchase} disabled={product.soldout===1}>즉시결재하기</Button>
           <pre id="description">{product.description}</pre>
         </div>
       </div>
